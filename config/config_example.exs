@@ -7,4 +7,5 @@
 # General application configuration
 import Config
 
-config :willow, :key, "YOUR_KEY_HERE"
+config :willowish_elixir_poison, WillowishElixirPoison,
+  key: "YOUR_KEY_HERE"

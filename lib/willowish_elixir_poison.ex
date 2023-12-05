@@ -1,11 +1,18 @@
 defmodule WillowishElixirPoison do
   use HTTPoison.Base, Jason.Encoder
+  @config Application.get_env(:willowish_elixir_poison, WillowishElixirPoison)
   @moduledoc """
   Documentation for `WillowishElixirPoison`.
   """
+  alias Hex.Application
+  def pilot() do
+    Map.get(@config, :key, "Check_CONFIG_EXAMPLE")
+    |> make_request()
+  end
+
   @endpoint "http://dev.virtualearth.net/REST/v1/Traffic/Incidents/"
-  def make_request(path \\ "39,-9,40,-8", params \\ %{}) do
-    url = "#{@endpoint}/#{path}"
+  def make_request(region \\ "39,-9,40,-8", params \\ %{}) do
+    url = "#{@endpoint}/#{region}"
 
     response =
       get(url, params, %{
