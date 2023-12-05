@@ -4,10 +4,15 @@ defmodule WillowishElixirPoison do
   @moduledoc """
   Documentation for `WillowishElixirPoison`.
   """
-  alias Hex.Application
-  def pilot() do
-    Map.get(@config, :key, "Check_CONFIG_EXAMPLE")
+  alias Hexdocs.Poison
+
+  def start(_type, _args) do
+    IO.puts "starting"
+    [{key,value}] = Application.get_env(:willowish_elixir_poison, WillowishElixirPoison)
+    IO.puts "key: #{value}"
+    value
     |> make_request()
+
   end
 
   @endpoint "http://dev.virtualearth.net/REST/v1/Traffic/Incidents/"
