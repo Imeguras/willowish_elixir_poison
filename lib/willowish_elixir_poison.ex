@@ -9,24 +9,18 @@ defmodule WillowishElixirPoison do
   def start(_type, _args) do
     IO.puts "starting"
     [{key,value}] = Application.get_env(:willowish_elixir_poison, WillowishElixirPoison)
-    IO.puts "key: #{value}"
-    value
+
+    "#{key}:#{value}"
     |> make_request()
 
   end
 
   @endpoint "http://dev.virtualearth.net/REST/v1/Traffic/Incidents/"
-  def make_request(region \\ "39,-9,40,-8", params \\ %{}) do
+  def make_request(params \\ %{},region \\ "39,-9,40,-8") do
     url = "#{@endpoint}/#{region}"
+    |>HTTPoison.get(params)
+    |>handle_response
 
-    response =
-      get(url, params, %{
-        headers: [
-          {"Content-Type", "application/json"}
-          # Add other headers if needed
-        ]
-      })
-    |> handle_response
   end
   defp handle_response({:ok, %HTTPoison.Response{body: body}}) do
     # Parse the JSON response using Jason
